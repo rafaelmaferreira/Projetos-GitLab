@@ -1,0 +1,15 @@
+eksctl create cluster -f day8/cluster.yaml
+  209  alias k=kubectl
+  210  k get pods
+  211  k get nodes
+  212  k get pods -A
+  213  k get svc -A
+  214  eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=LINUXtips --approve
+  219  eksctl create iamserviceaccount --name external-dns --namespace default --cluster LINUXtips --attach-policy-arn arn:aws:iam::aws:policy/AdministratorAccess --approve
+  220  k get sa
+  221  k describe sa external-dns
+  222  history
+  helm repo add jetstack https://charts.jetstack.io
+  helm repo update
+  helm upgrade cert-manager jetstack/cert-manager --install --namespace cert-manager --create-namespace --values "cert-manager-values.yml" --wait
+  k apply -f dns-external.yaml
