@@ -1,0 +1,41 @@
+image: docker:19.03 
+
+stages:
+  - build
+  - test
+  - push
+  - deploy
+
+variables:
+  docker_version: 19.03
+
+before_script:
+  - git clone git@gitlab.com:descomplicando-o-gitlab1/gitbook.git
+
+buildando-minha-app:
+  stage: build
+  script:
+    - docker build -t giropops:1.0 .
+
+testando-minha-app:
+  stage: test
+  only:
+    - branches:
+  except: 
+    - main
+  script:
+    - docker run giropops: 1.0 /scripts/script-para-testar.sh
+
+push-minha-app:
+  stage: push
+  only:
+    - main
+  script:
+    - docker push giropops: 1.0
+
+depoyando-minha-app:
+  stage: deploy
+  only:
+    - main
+  script:
+    - kubectl apply -f meu-arq.yaml
